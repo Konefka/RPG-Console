@@ -1,17 +1,19 @@
 ﻿using RPG_Console;
+using static RPG_Console.Living;
 
 internal class Program
 {
     static void Main(string[] args)
     {
-        Character Tadek = new Warrior("Tadek", 3.9, 4.7);
+        ICharacter Tadek = new Warrior("Tadek", 3.9m, 4.7m);
         Tadek.Check_Info();
 
-        Character Ździsio = new Mage("Ździsio", 14);
+        ICharacter Ździsio = new Mage("Ździsio", 14m);
         Ździsio.Check_Info();
 
-        Ring ring1 = new Ring(0);
+        Battleground polana = new Battleground();
 
-        ring1.Battle(Tadek, Ździsio);
+        polana.Battle(Ździsio, Tadek);
+
     }
 }

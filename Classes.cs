@@ -6,98 +6,99 @@ using System.Threading.Tasks;
 
 namespace RPG_Console
 {
-    abstract class Character : ICheck
+    class Living
     {
-        public string? Name;
-        public double Power;
-        public double HP;
-
-        public virtual void Check_Info()
+        public abstract class Hero : ICharacter
         {
-            Console.WriteLine($"Ta postać ma statystyki:");
-            Console.WriteLine($"- Name: {Name}");
-            Console.WriteLine($"- Power: {Power}");
-            Console.WriteLine($"- HP: {HP}");
+            public string? Name { get; protected set; }
+            public decimal Power { get; protected set; }
+            public decimal HP { get; protected set; }
+
+            decimal ICharacter.HP
+            {
+                get => HP;
+                set => HP = value;
+            }
+
+            public virtual void Check_Info()
+            {
+                Console.WriteLine($"Ta postać ma statystyki:");
+                Console.WriteLine($"- Name: {Name}");
+                Console.WriteLine($"- Power: {Power}");
+                Console.WriteLine($"- HP: {HP}");
+            }
         }
 
-        public virtual void Attack(Character target)
+        public class Warrior : Hero
         {
-            if (target != null)
+            public decimal Sword_weight;
+            public decimal Sword_power;
+            public Warrior(string name, decimal power, decimal sword_weight)
             {
-                Console.WriteLine($"You attack {target.Name} for {Power} damage");
-                target.HP -= Power;
+                Name = name;
+                Power = power < 10 ? power : 10;
+                HP = Power * 10;
+                Sword_weight = sword_weight < 5 ? sword_weight : 5;
+                Sword_power = Math.Round((Power / Sword_weight) * 4, 2);
+                Power = Sword_power;
             }
-            else
+
+            public override void Check_Info()
             {
-                Console.WriteLine("Nie ma takiej postaci");
+                base.Check_Info();
+                Console.WriteLine($"- Sword weight: {Sword_weight}");
+                Console.WriteLine($"- Sword power: {Sword_power}");
+            }
+        }
+
+        public class Mage : Hero
+        {
+            public Mage(string name, decimal magic_power)
+            {
+                Name = name;
+                Power = magic_power < 10 ? magic_power : Math.Round(magic_power / 2, 2);
+                HP = Power * 5;
+            }
+        }
+
+        public class Archer : Hero
+        {
+            public Archer(string name, decimal arrow_power)
+            {
+                Name = name;
+                Power = arrow_power < 10 ? arrow_power : Math.Round(arrow_power / 2, 2);
+                HP = Power * 5;
             }
         }
     }
 
-    class Warrior : Character
+    class Undead
     {
-        public double Sword_weight;
-        public double Sword_power;
-        public Warrior(string name, double power, double sword_weight)
+        public abstract class Demon : ICharacter
         {
-            Name = name;
-            Power = power < 10 ? power : 10;
-            HP = Power * 10;
-            Sword_weight = sword_weight < 5 ? sword_weight : 5;
-            Sword_power = Math.Round((Power / Sword_weight) * 4);
-            Power = Sword_power;
-        }
+            public string? Name { get; protected set; }
+            public decimal Power { get; protected set; }
+            public decimal HP { get; protected set; }
 
-        public override void Check_Info()
-        {
-            base.Check_Info();
-            Console.WriteLine($"- Sword weight: {Sword_weight}");
-            Console.WriteLine($"- Sword power: {Sword_power}");
-        }
-
-        public override void Attack(Character target)
-        {
-            if (target != null)
+            decimal ICharacter.HP
             {
-                Console.WriteLine($"You attack {target.Name} for {Sword_power} damage");
-                target.HP -= Sword_power;
+                get => HP;
+                set => HP = value;
             }
-            else
+
+            public virtual void Check_Info()
             {
-                Console.WriteLine("Nie ma takiej postaci");
+                Console.WriteLine($"Ta postać ma statystyki:");
+                Console.WriteLine($"- Name: {Name}");
+                Console.WriteLine($"- Power: {Power}");
+                Console.WriteLine($"- HP: {HP}");
             }
         }
     }
 
-    class Mage : Character
+    class Battleground
     {
-        public Mage(string name, double magic_power)
-        {
-            Name = name;
-            Power = magic_power < 10 ? magic_power : Math.Round(magic_power / 2);
-            HP = Power * 5;
-        }
-    }
-
-    class Archer : Character
-    {
-        public Archer(string name, double arrow_power)
-        {
-            Name = name;
-            Power = arrow_power < 10 ? arrow_power : Math.Round(arrow_power / 2);
-            HP = Power * 5;
-        }
-    }
-
-    class Ring : Character
-    {
-        private double Battle_To_What_Hp;
-        public Ring(double battle_to_what_hp)
-        {
-            Battle_To_What_Hp = battle_to_what_hp;
-        }
-
-        public void Battle(Character you, Character target)
+        public void Battle(ICharacter you, ICharacter target)
         {
             if (you != null && target != null)
             {
@@ -106,7 +107,7 @@ namespace RPG_Console
                 {
                     if (who_is_next == 1)
                     {
-                        Console.WriteLine($"=========={you.Name}==========");
+                        Console.WriteLine($"====={you.Name}=====");
                         Console.WriteLine($"{you.Name} attacks {target.Name} for {you.Power} HP");
                         Console.Write($"{target.HP} HP - {you.Power} HP = ");
                         Math.Round(target.HP -= you.Power, 2);
@@ -115,7 +116,7 @@ namespace RPG_Console
                     }
                     else if (who_is_next == 2)
                     {
-                        Console.WriteLine($"=========={target.Name}==========");
+                        Console.WriteLine($"====={target.Name}=====");
                         Console.WriteLine($"{target.Name} attacks {you.Name} for {target.Power} HP");
                         Console.Write($"{you.HP} HP - {target.Power} HP = ");
                         Math.Round(you.HP -= target.Power, 2);
@@ -123,12 +124,12 @@ namespace RPG_Console
                         who_is_next--;
                     }
 
-                    if (you.HP <= Battle_To_What_Hp)
+                    if (you.HP <= 0)
                     {
                         Console.WriteLine($"BRAWO! Pojedynek wygrał {target.Name} z {target.HP} HP");
                         break;
                     }
-                    else if (target.HP <= Battle_To_What_Hp)
+                    else if (target.HP <= 0)
                     {
                         Console.WriteLine($"BRAWO! Pojedynek wygrał {you.Name} z {you.HP} HP");
                         break;
