@@ -14,11 +14,11 @@ namespace RPG_Console
             public decimal Power { get; protected set; }
             public decimal HP { get; protected set; }
 
-            decimal ICharacter.HP
-            {
-                get => HP;
-                set => HP = value;
-            }
+            //decimal ICharacter.HP
+            //{
+            //    get => HP;
+            //    set => HP = value;
+            //}
 
             public virtual void Check_Info()
             {
@@ -26,6 +26,18 @@ namespace RPG_Console
                 Console.WriteLine($"- Name: {Name}");
                 Console.WriteLine($"- Power: {Power}");
                 Console.WriteLine($"- HP: {HP}");
+            }
+
+            decimal ICharacter.TakeDamage(decimal howmuch)
+            {
+                HP = Math.Round(HP - howmuch, 2);
+                if (HP < 0) HP = 0;
+                return HP;
+            }
+
+            decimal ICharacter.HealUp(decimal howmuch)
+            {
+                return HP = Math.Round(HP + howmuch, 2);
             }
         }
 
@@ -80,11 +92,11 @@ namespace RPG_Console
             public decimal Power { get; protected set; }
             public decimal HP { get; protected set; }
 
-            decimal ICharacter.HP
-            {
-                get => HP;
-                set => HP = value;
-            }
+            //decimal ICharacter.HP
+            //{
+            //    get => HP;
+            //    set => HP = value;
+            //}
 
             public virtual void Check_Info()
             {
@@ -92,6 +104,18 @@ namespace RPG_Console
                 Console.WriteLine($"- Name: {Name}");
                 Console.WriteLine($"- Power: {Power}");
                 Console.WriteLine($"- HP: {HP}");
+            }
+
+            decimal ICharacter.TakeDamage(decimal howmuch)
+            {
+                HP = Math.Round(HP - howmuch, 2);
+                if (HP < 0) HP = 0;
+                return HP;
+            }
+
+            decimal ICharacter.HealUp(decimal howmuch)
+            {
+                return HP = Math.Round(HP + howmuch, 2);
             }
         }
     }
@@ -110,8 +134,7 @@ namespace RPG_Console
                         Console.WriteLine($"====={you.Name}=====");
                         Console.WriteLine($"{you.Name} attacks {target.Name} for {you.Power} HP");
                         Console.Write($"{target.HP} HP - {you.Power} HP = ");
-                        Math.Round(target.HP -= you.Power, 2);
-                        Console.WriteLine(target.HP + " HP");
+                        Console.WriteLine(target.TakeDamage(you.Power) + " HP");
                         who_is_next++;
                     }
                     else if (who_is_next == 2)
@@ -119,8 +142,7 @@ namespace RPG_Console
                         Console.WriteLine($"====={target.Name}=====");
                         Console.WriteLine($"{target.Name} attacks {you.Name} for {target.Power} HP");
                         Console.Write($"{you.HP} HP - {target.Power} HP = ");
-                        Math.Round(you.HP -= target.Power, 2);
-                        Console.WriteLine(you.HP + " HP");
+                        Console.WriteLine(you.TakeDamage(target.Power) + " HP");
                         who_is_next--;
                     }
 

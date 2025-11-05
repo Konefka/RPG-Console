@@ -10,7 +10,11 @@ namespace RPG_Console
     {
         string? Name { get; }
         decimal Power { get; }
-        decimal HP { get; set; }
+        decimal HP { get; }
         void Check_Info();
+
+        decimal TakeDamage(decimal howmuch);
+
+        decimal HealUp(decimal howmuch);
     }
 }
