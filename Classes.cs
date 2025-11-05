@@ -14,12 +14,6 @@ namespace RPG_Console
             public decimal Power { get; protected set; }
             public decimal HP { get; protected set; }
 
-            //decimal ICharacter.HP
-            //{
-            //    get => HP;
-            //    set => HP = value;
-            //}
-
             public virtual void Check_Info()
             {
                 Console.WriteLine($"Ta postać ma statystyki:");
@@ -91,12 +85,6 @@ namespace RPG_Console
             public string? Name { get; protected set; }
             public decimal Power { get; protected set; }
             public decimal HP { get; protected set; }
-
-            //decimal ICharacter.HP
-            //{
-            //    get => HP;
-            //    set => HP = value;
-            //}
 
             public virtual void Check_Info()
             {
