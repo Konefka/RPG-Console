@@ -90,7 +90,7 @@ namespace RPG_Console
             if (you != null && target != null)
             {
                 int who_is_next = 1;
-                while (true)
+                while (you.HP > 0 && target.HP > 0)
                 {
                     if (who_is_next == 1)
                     {
@@ -108,17 +108,15 @@ namespace RPG_Console
                         Console.WriteLine(you.TakeDamage(target.Power) + " HP");
                         who_is_next--;
                     }
+                }
 
-                    if (you.HP <= 0)
-                    {
-                        Console.WriteLine($"BRAWO! Pojedynek wygrał {target.Name} z {target.HP} HP");
-                        break;
-                    }
-                    else if (target.HP <= 0)
-                    {
-                        Console.WriteLine($"BRAWO! Pojedynek wygrał {you.Name} z {you.HP} HP");
-                        break;
-                    }
+                if (you.HP <= 0)
+                {
+                    Console.WriteLine($"BRAWO! Pojedynek wygrał {target.Name} z {target.HP} HP");
+                }
+                else if (target.HP <= 0)
+                {
+                    Console.WriteLine($"BRAWO! Pojedynek wygrał {you.Name} z {you.HP} HP");
                 }
             }
             else
