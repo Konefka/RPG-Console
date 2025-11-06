@@ -8,7 +8,7 @@ internal class Program
         Character Tadek = new Warrior("Tadek", 3.9m, 4.7m);
         Tadek.Check_Info();
 
-        Character Ździsio = new Mage("Ździsio", 14m);
+        Character Ździsio = new Mage("Ździsio", 2m, 1.5m);
         Ździsio.Check_Info();
 
         Battleground polana = new Battleground();
