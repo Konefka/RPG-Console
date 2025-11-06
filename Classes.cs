@@ -6,36 +6,36 @@ using System.Threading.Tasks;
 
 namespace RPG_Console
 {
-    class Living
+    internal abstract class Character
     {
-        public abstract class Hero : ICharacter
+        public string? Name { get; protected set; }
+        public decimal Power { get; protected set; }
+        public decimal HP { get; protected set; }
+
+        public virtual void Check_Info()
         {
-            public string? Name { get; protected set; }
-            public decimal Power { get; protected set; }
-            public decimal HP { get; protected set; }
-
-            public virtual void Check_Info()
-            {
-                Console.WriteLine($"Ta postać ma statystyki:");
-                Console.WriteLine($"- Name: {Name}");
-                Console.WriteLine($"- Power: {Power}");
-                Console.WriteLine($"- HP: {HP}");
-            }
-
-            decimal ICharacter.TakeDamage(decimal howmuch)
-            {
-                HP = Math.Round(HP - howmuch, 2);
-                if (HP < 0) HP = 0;
-                return HP;
-            }
-
-            decimal ICharacter.HealUp(decimal howmuch)
-            {
-                return HP = Math.Round(HP + howmuch, 2);
-            }
+            Console.WriteLine($"Ta postać ma statystyki:");
+            Console.WriteLine($"- Name: {Name}");
+            Console.WriteLine($"- Power: {Power}");
+            Console.WriteLine($"- HP: {HP}");
         }
 
-        public class Warrior : Hero
+        internal virtual decimal TakeDamage(decimal howmuch)
+        {
+            HP = Math.Round(HP - howmuch, 2);
+            if (HP < 0) HP = 0;
+            return HP;
+        }
+
+        internal virtual decimal HealUp(decimal howmuch)
+        {
+            return HP = Math.Round(HP + howmuch, 2);
+        }
+    }
+
+    class Living
+    {
+        public class Warrior : Character
         {
             public decimal Sword_weight;
             public decimal Sword_power;
@@ -57,7 +57,7 @@ namespace RPG_Console
             }
         }
 
-        public class Mage : Hero
+        public class Mage : Character
         {
             public Mage(string name, decimal magic_power)
             {
@@ -67,7 +67,7 @@ namespace RPG_Console
             }
         }
 
-        public class Archer : Hero
+        public class Archer : Character
         {
             public Archer(string name, decimal arrow_power)
             {
@@ -80,37 +80,12 @@ namespace RPG_Console
 
     class Undead
     {
-        public abstract class Demon : ICharacter
-        {
-            public string? Name { get; protected set; }
-            public decimal Power { get; protected set; }
-            public decimal HP { get; protected set; }
-
-            public virtual void Check_Info()
-            {
-                Console.WriteLine($"Ta postać ma statystyki:");
-                Console.WriteLine($"- Name: {Name}");
-                Console.WriteLine($"- Power: {Power}");
-                Console.WriteLine($"- HP: {HP}");
-            }
-
-            decimal ICharacter.TakeDamage(decimal howmuch)
-            {
-                HP = Math.Round(HP - howmuch, 2);
-                if (HP < 0) HP = 0;
-                return HP;
-            }
-
-            decimal ICharacter.HealUp(decimal howmuch)
-            {
-                return HP = Math.Round(HP + howmuch, 2);
-            }
-        }
+        
     }
 
     class Battleground
     {
-        public void Battle(ICharacter you, ICharacter target)
+        public void Battle(Character you, Character target)
         {
             if (you != null && target != null)
             {
