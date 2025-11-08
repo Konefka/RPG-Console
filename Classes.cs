@@ -1,12 +1,99 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace RPG_Console
 {
-    internal abstract class Character
+    static class Map
+    {
+
+        static int pRow = 4;
+        static int pCol = 4;
+        static int eRow = 7;
+        static int eCol = 14;
+
+        static List<List<char>> map = new List<List<char>>();
+        public static void Draw()
+        {
+            int rows = 20;
+            int cols = 40;
+            for (int row = 0; row < rows; row++)
+            {
+                List<char> newRow = new List<char>();
+
+                for (int col = 0; col < cols; col++)
+                {
+                    if (row == 0 || row == rows - 1 || col == 0 || col == cols - 1)
+                        newRow.Add('#');
+                    else
+                        newRow.Add('.');
+                }
+                map.Add(newRow);
+            }
+
+            Console.SetCursorPosition(0, 0);
+            Console.CursorVisible = false;
+            for (int row = 0; row < map.Count; row++)
+            {
+                for (int column = 0; column < map[0].Count; column++)
+                {
+                    if (row == pRow && column == pCol) {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write("@ ");
+                    } else if (row == eRow && column == eCol)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("E ");
+                    } else {
+                        if (map[row][column] == '#')
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                        }
+
+                        Console.Write(map[row][column] + " ");
+                    }
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public static void Update(ConsoleKey key)
+        {
+            int newRow = pRow;
+            int newCol = pCol;
+
+            switch (key)
+            {
+                case ConsoleKey.W: newRow--; break;
+                case ConsoleKey.S: newRow++; break;
+                case ConsoleKey.A: newCol--; break;
+                case ConsoleKey.D: newCol++; break;
+                default: return;
+            }
+
+            if (map[newRow][newCol] != '#')
+            {
+                Console.SetCursorPosition(pCol * 2, pRow);
+                Console.Write(". ");
+
+                pRow = newRow;
+                pCol = newCol;
+
+                Console.SetCursorPosition(pCol * 2, pRow);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("@ ");
+            }
+
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+    }
+
+    abstract class Character
     {
         public string? Name { get; protected set; }
         public decimal Power { get; protected set; }

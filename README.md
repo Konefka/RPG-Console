@@ -1,5 +1,6 @@
 # RPG Console ![C#](https://img.shields.io/badge/C%23-8533ff?logoSize=32)
-Program ma 3 możliwe postacie: **Warrior**, **Mage** i **Archer**.
+W programie można wybrać 3 możliwe postacie: **Warrior**, **Mage** i **Archer** i zrobić z nich graczy.<br>
+Pracuję nad implementacją mapy i grafik walki (możliwe, że poprzez ASCII Art).
 > [!NOTE]
 > **Aby program działał, należy wpisać wszystkie komendy do Main, po czym uruchomić aplikację.**
 <img width="1918" height="1030" alt="obraz" src="https://github.com/user-attachments/assets/8b4a2e8b-c3f3-46aa-9bae-a82005fd9aff" />

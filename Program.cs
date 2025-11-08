@@ -5,14 +5,21 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        Character Tadek = new Warrior("Tadek", 3.9m, 4.7m);
-        Tadek.Check_Info();
 
-        Character Ździsio = new Mage("Ździsio", 2m, 1.5m);
-        Ździsio.Check_Info();
+        Map.Draw();
 
-        Battleground polana = new Battleground();
+        while (true)
+        {
+            ConsoleKey key = Console.ReadKey(true).Key;
+            if (key == ConsoleKey.Escape)
+            {
+                Console.Clear();
+                break;
+            }
+            Map.Update(key);
+        }
 
-        polana.Battle(Ździsio, Tadek);
+        //Thread.Sleep(1000);
+        //Console.Beep(40, 1000);
     }
 }
