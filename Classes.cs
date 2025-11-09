@@ -12,14 +12,26 @@ namespace RPG_Console
 
         static int pRow = 4;
         static int pCol = 4;
-        static int eRow = 7;
-        static int eCol = 14;
-
+        static Random Rand = new Random();
+        static List<(int row, int col)> ePos = new List<(int, int)>();
         static List<List<char>> map = new List<List<char>>();
-        public static void Draw()
+
+        static void GenerateEnemies(int howmuch, int rows, int cols)
         {
-            int rows = 20;
-            int cols = 40;
+            for (int i = 0; i < howmuch; i++)
+            {
+                int row = Rand.Next(1, rows);
+                int col = Rand.Next(1, cols);
+                while (map[row][col] == '#' || (row == pRow && col == pCol)) {
+                    row = Rand.Next(1, rows);
+                    col = Rand.Next(1, cols);
+                }
+                ePos.Add((row, col));
+            }
+        }
+
+        public static void Draw(int rows, int cols)
+        {
             for (int row = 0; row < rows; row++)
             {
                 List<char> newRow = new List<char>();
@@ -34,31 +46,36 @@ namespace RPG_Console
                 map.Add(newRow);
             }
 
-            Console.SetCursorPosition(0, 0);
+            GenerateEnemies(3, rows, cols);
+            Console.Clear();
             Console.CursorVisible = false;
             for (int row = 0; row < map.Count; row++)
             {
-                for (int column = 0; column < map[0].Count; column++)
+                for (int col = 0; col < map[0].Count; col++)
                 {
-                    if (row == pRow && column == pCol) {
+                    if (row == pRow && col == pCol) {
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("@ ");
-                    } else if (row == eRow && column == eCol)
+                    } else if (ePos.Contains((row, col)))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("E ");
                     } else {
-                        if (map[row][column] == '#')
+                        if (map[row][col] == '#')
                         {
                             Console.ForegroundColor = ConsoleColor.Blue;
                         }
 
-                        Console.Write(map[row][column] + " ");
+                        Console.Write(map[row][col] + " ");
                     }
 
                     Console.ForegroundColor = ConsoleColor.White;
                 }
-                Console.WriteLine();
+
+                if (row != map.Count - 1)
+                {
+                    Console.WriteLine();
+                }
             }
         }
 

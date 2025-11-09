@@ -6,7 +6,7 @@ internal class Program
     static void Main(string[] args)
     {
 
-        Map.Draw();
+        Map.Draw(23, 44);
 
         while (true)
         {
