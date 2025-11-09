@@ -9,36 +9,98 @@ namespace RPG_Console
 {
     static class Map
     {
-
+        static int Width;
+        static int Height;
         static int pRow = 4;
         static int pCol = 4;
         static Random Rand = new Random();
         static List<(int row, int col)> ePos = new List<(int, int)>();
+        static List<(int row, int col)> sPos = new List<(int, int)>();
         static List<List<char>> map = new List<List<char>>();
+        static List<List<char>> lobby = new List<List<char>>();
 
-        static void GenerateEnemies(int howmuch, int rows, int cols)
+        public static void DrawLobby()
         {
-            for (int i = 0; i < howmuch; i++)
-            {
-                int row = Rand.Next(1, rows);
-                int col = Rand.Next(1, cols);
-                while (map[row][col] == '#' || (row == pRow && col == pCol)) {
-                    row = Rand.Next(1, rows);
-                    col = Rand.Next(1, cols);
-                }
-                ePos.Add((row, col));
-            }
-        }
+            int rows = Console.WindowHeight;
+            int cols = Console.WindowWidth;
 
-        public static void Draw(int rows, int cols)
-        {
+            Height = rows;
+            Width = cols / 2;
+
             for (int row = 0; row < rows; row++)
             {
                 List<char> newRow = new List<char>();
 
                 for (int col = 0; col < cols; col++)
                 {
-                    if (row == 0 || row == rows - 1 || col == 0 || col == cols - 1)
+                    newRow.Add('.');
+                }
+                lobby.Add(newRow);
+            }
+
+            for (int i = 0; i < 112; i++)
+            {
+                int row = Rand.Next(1, rows);
+                int col = Rand.Next(1, cols);
+                while (row == 0 || row == rows - 1 || col == 0 || col == cols - 1)
+                {
+                    row = Rand.Next(1, rows);
+                    col = Rand.Next(1, cols);
+                }
+                sPos.Add((row, col));
+            }
+
+            Console.Clear();
+
+            for (int row = 0; row < lobby.Count; row++)
+            {
+                for (int col = 0; col < lobby[0].Count; col++)
+                {
+                    if (sPos.Contains((row, col)))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write('*');
+                    }
+                    else
+                    {
+                        Console.Write(" ");
+                    }
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+
+                if (row != lobby.Count - 1)
+                {
+                    Console.WriteLine();
+                }
+            }
+
+            Console.ReadKey(true);
+        }
+
+        static void GenerateEnemies(int howmuch)
+        {
+            for (int i = 0; i < howmuch; i++)
+            {
+                int row = Rand.Next(1, Height);
+                int col = Rand.Next(1, Width);
+                while (map[row][col] == '#' || (row == pRow && col == pCol)) {
+                    row = Rand.Next(1, Height);
+                    col = Rand.Next(1, Width);
+                }
+                ePos.Add((row, col));
+            }
+        }
+
+        public static void Draw()
+        {
+            for (int row = 0; row < Height; row++)
+            {
+                List<char> newRow = new List<char>();
+
+                for (int col = 0; col < Width; col++)
+                {
+                    if (row == 0 || row == Height - 1 || col == 0 || col == Width - 1)
                         newRow.Add('#');
                     else
                         newRow.Add('.');
@@ -46,7 +108,7 @@ namespace RPG_Console
                 map.Add(newRow);
             }
 
-            GenerateEnemies(3, rows, cols);
+            GenerateEnemies(3);
             Console.Clear();
             Console.CursorVisible = false;
             for (int row = 0; row < map.Count; row++)

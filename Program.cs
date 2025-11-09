@@ -5,8 +5,17 @@ internal class Program
 {
     static void Main(string[] args)
     {
+        Console.WriteLine($"Naciśnij Left Alt + Enter");
+        Console.WriteLine("(Program będzie czekał, aż to zrobisz)");
 
-        Map.Draw(23, 44);
+        while (Console.WindowWidth != 209 || Console.WindowHeight != 56)
+        {
+            Thread.Sleep(200);
+        }
+
+        Map.DrawLobby();
+
+        Map.Draw();
 
         while (true)
         {
@@ -19,7 +28,6 @@ internal class Program
             Map.Update(key);
         }
 
-        //Thread.Sleep(1000);
         //Console.Beep(40, 1000);
     }
 }
