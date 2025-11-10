@@ -9,8 +9,8 @@ namespace RPG_Console
 {
     static class GameDisplay
     {
-        static int Width;
-        static int Height;
+        static int Width = 209 / 2;
+        static int Height = 56;
         static int pRow = 4;
         static int pCol = 4;
         static Random Rand = new Random();
@@ -18,6 +18,7 @@ namespace RPG_Console
         static List<(int row, int col)> sPos = new List<(int, int)>();
         static List<List<char>> Map = new List<List<char>>();
         static List<List<char>> Menu = new List<List<char>>();
+
 
         public static void DrawMenu()
         {
@@ -52,11 +53,32 @@ namespace RPG_Console
 
             Console.Clear();
 
+            int center = rows / 2 - 1;
+
             for (int row = 0; row < Menu.Count; row++)
             {
                 for (int col = 0; col < Menu[0].Count; col++)
                 {
-                    if (sPos.Contains((row, col)))
+                    if (row >= center - 5 && row <= center + 5 && col == cols / 2 - 44)
+                    {
+
+                        switch (row - center)
+                        {
+                            case -5: Console.Write(@"  ++%%%%%%##::  ++%%%%%%%%%%%%%%##     ++%%%%        %%%%%%%%%%##,,   ++%%%%%%%%%%%%%%##"); break;
+                            case -4: Console.Write(@"**%%##++++%%%%  ::++++++%%##++++**     %%##%%::      %%%%++++++%%%%,, ::++++++%%##++++**"); break;
+                            case -3: Console.Write(@"##%%..    ..,,          %%++         ,,%%::%%++      %%##      **%%**         %%++      "); break;
+                            case -2: Console.Write(@"++%%,,                  %%++         **%%..++%%      %%##      ::%%++         %%++      "); break;
+                            case -1: Console.Write(@"::%%%%++,,              %%++         ####  **%%,,    %%##      ::%%**         %%++      "); break;
+                            case 0:  Console.Write(@"  ,,##%%%%++..          %%++       ..%%++  ,,%%**    %%%%++++++%%%%..         %%++      "); break;
+                            case 1:  Console.Write(@"      ::##%%##          %%++       ::%%++++++%%##    %%%%%%%%%%%%,,           %%++      "); break;
+                            case 2:  Console.Write(@"          ++%%,,        %%++       ++%%%%%%%%%%%%    %%##    ++%%,,           %%++      "); break;
+                            case 3:  Console.Write(@"..        ++%%::        %%++       %%##      ::%%::  %%##    ::%%++           %%++      "); break;
+                            case 4:  Console.Write(@"%%##++++++%%%%          %%++     ,,%%**        %%++  %%##      ##%%,,         %%++      "); break;
+                            case 5:  Console.Write(@"++##%%%%%%##,,          %%++     ++%%,,        ##%%  %%##      ::%%++         %%++      "); break;
+                        }
+
+                        col += 89;
+                    } else if (sPos.Contains((row, col)))
                     {
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.Write('*');
@@ -108,9 +130,8 @@ namespace RPG_Console
                 Map.Add(newRow);
             }
 
-            GenerateEnemies(3);
+            GenerateEnemies(15);
             Console.Clear();
-            Console.CursorVisible = false;
             for (int row = 0; row < Map.Count; row++)
             {
                 for (int col = 0; col < Map[0].Count; col++)
@@ -128,10 +149,10 @@ namespace RPG_Console
                             Console.ForegroundColor = ConsoleColor.Blue;
                         }
 
-                        Console.Write(Map[row][col] + " ");
+                            Console.Write(Map[row][col] + " ");
                     }
 
-                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
                 }
 
                 if (row != Map.Count - 1)
@@ -168,7 +189,7 @@ namespace RPG_Console
                 Console.Write("@ ");
             }
 
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.DarkGray;
         }
     }
 
