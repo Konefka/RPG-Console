@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RPG_Console
 {
-    static class Map
+    static class GameDisplay
     {
         static int Width;
         static int Height;
@@ -16,10 +16,10 @@ namespace RPG_Console
         static Random Rand = new Random();
         static List<(int row, int col)> ePos = new List<(int, int)>();
         static List<(int row, int col)> sPos = new List<(int, int)>();
-        static List<List<char>> map = new List<List<char>>();
-        static List<List<char>> lobby = new List<List<char>>();
+        static List<List<char>> Map = new List<List<char>>();
+        static List<List<char>> Menu = new List<List<char>>();
 
-        public static void DrawLobby()
+        public static void DrawMenu()
         {
             int rows = Console.WindowHeight;
             int cols = Console.WindowWidth;
@@ -35,7 +35,7 @@ namespace RPG_Console
                 {
                     newRow.Add('.');
                 }
-                lobby.Add(newRow);
+                Menu.Add(newRow);
             }
 
             for (int i = 0; i < 112; i++)
@@ -52,9 +52,9 @@ namespace RPG_Console
 
             Console.Clear();
 
-            for (int row = 0; row < lobby.Count; row++)
+            for (int row = 0; row < Menu.Count; row++)
             {
-                for (int col = 0; col < lobby[0].Count; col++)
+                for (int col = 0; col < Menu[0].Count; col++)
                 {
                     if (sPos.Contains((row, col)))
                     {
@@ -69,7 +69,7 @@ namespace RPG_Console
                     Console.ForegroundColor = ConsoleColor.White;
                 }
 
-                if (row != lobby.Count - 1)
+                if (row != Menu.Count - 1)
                 {
                     Console.WriteLine();
                 }
@@ -84,7 +84,7 @@ namespace RPG_Console
             {
                 int row = Rand.Next(1, Height);
                 int col = Rand.Next(1, Width);
-                while (map[row][col] == '#' || (row == pRow && col == pCol)) {
+                while (Map[row][col] == '#' || (row == pRow && col == pCol)) {
                     row = Rand.Next(1, Height);
                     col = Rand.Next(1, Width);
                 }
@@ -92,7 +92,7 @@ namespace RPG_Console
             }
         }
 
-        public static void Draw()
+        public static void DrawMap()
         {
             for (int row = 0; row < Height; row++)
             {
@@ -105,15 +105,15 @@ namespace RPG_Console
                     else
                         newRow.Add('.');
                 }
-                map.Add(newRow);
+                Map.Add(newRow);
             }
 
             GenerateEnemies(3);
             Console.Clear();
             Console.CursorVisible = false;
-            for (int row = 0; row < map.Count; row++)
+            for (int row = 0; row < Map.Count; row++)
             {
-                for (int col = 0; col < map[0].Count; col++)
+                for (int col = 0; col < Map[0].Count; col++)
                 {
                     if (row == pRow && col == pCol) {
                         Console.ForegroundColor = ConsoleColor.Green;
@@ -123,25 +123,25 @@ namespace RPG_Console
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("E ");
                     } else {
-                        if (map[row][col] == '#')
+                        if (Map[row][col] == '#')
                         {
                             Console.ForegroundColor = ConsoleColor.Blue;
                         }
 
-                        Console.Write(map[row][col] + " ");
+                        Console.Write(Map[row][col] + " ");
                     }
 
                     Console.ForegroundColor = ConsoleColor.White;
                 }
 
-                if (row != map.Count - 1)
+                if (row != Map.Count - 1)
                 {
                     Console.WriteLine();
                 }
             }
         }
 
-        public static void Update(ConsoleKey key)
+        public static void UpdateMap(ConsoleKey key)
         {
             int newRow = pRow;
             int newCol = pCol;
@@ -155,7 +155,7 @@ namespace RPG_Console
                 default: return;
             }
 
-            if (map[newRow][newCol] != '#')
+            if (Map[newRow][newCol] != '#')
             {
                 Console.SetCursorPosition(pCol * 2, pRow);
                 Console.Write(". ");

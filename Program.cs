@@ -13,9 +13,9 @@ internal class Program
             Thread.Sleep(200);
         }
 
-        Map.DrawLobby();
+        GameDisplay.DrawMenu();
 
-        Map.Draw();
+        GameDisplay.DrawMap();
 
         while (true)
         {
@@ -25,7 +25,7 @@ internal class Program
                 Console.Clear();
                 break;
             }
-            Map.Update(key);
+            GameDisplay.UpdateMap(key);
         }
 
         //Console.Beep(40, 1000);
