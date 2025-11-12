@@ -16,9 +16,11 @@ internal class Program
 
         Console.CursorVisible = false;
 
-        GameDisplay.DrawMenu();
+        Menu.Draw();
 
-        GameDisplay.DrawMap();
+        Console.ReadKey(true);
+
+        Map.Draw();
 
         while (true)
         {
@@ -28,7 +30,7 @@ internal class Program
                 Console.Clear();
                 break;
             }
-            GameDisplay.UpdateMap(key);
+            Map.Update(key);
         }
 
         //Console.Beep(40, 1000);
