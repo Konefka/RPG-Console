@@ -34,5 +34,7 @@ internal class Program
         }
 
         //Console.Beep(40, 1000);
+        //var key = Console.ReadKey(true);
+        //Console.WriteLine(key.Modifiers + " " + key.Key);
     }
 }

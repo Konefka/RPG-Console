@@ -29,4 +29,6 @@ git clone https://github.com/Konefka/RPG-Console.git
 >    - Naliśnij na RPG_Console.sln prawym przyciskiem - Otwórz za pomocą - Microsoft Visual Studio 2022
 > 
 > 2. Jeżeli wyskakuje Ci błąd, to jest szansa, że nie masz zainstalowanego .NET SDK 9.0
->    - Wtedy idź do https://dotnet.microsoft.com/en-us/download, zainstaluj i spróbuj jeszcze raz
+>    - Przejdź wtedy do https://dotnet.microsoft.com/en-us/download, zainstaluj i spróbuj jeszcze raz
+
+> a w tej bajce były smoki ;)
