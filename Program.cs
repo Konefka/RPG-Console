@@ -14,24 +14,31 @@ internal class Program
             Thread.Sleep(200);
         }
 
-        Console.CursorVisible = false;
+        //Console.CursorVisible = false;
 
-        Menu.Draw();
+        //Menu.Draw();
 
-        Console.ReadKey(true);
+        //Console.ReadKey(true);
 
-        Map.Draw();
+        //Map.Draw();
 
-        while (true)
-        {
-            ConsoleKey key = Console.ReadKey(true).Key;
-            if (key == ConsoleKey.Escape)
-            {
-                Console.Clear();
-                break;
-            }
-            Map.Update(key);
-        }
+        //while (true)
+        //{
+        //    ConsoleKey key = Console.ReadKey(true).Key;
+        //    if (key == ConsoleKey.Escape)
+        //    {
+        //        Console.Clear();
+        //        break;
+        //    }
+        //    Map.Update(key);
+        //}
+
+        // Imie może mieć maksymalnie 25 znaków
+
+        Character a = new Warrior("Wisio", 4, 3);
+        Character b = new Mage("Zdzisio", 3, 4);
+
+        BattleGround.Battle(a, b);
 
         //Console.Beep(40, 1000);
         //var key = Console.ReadKey(true);

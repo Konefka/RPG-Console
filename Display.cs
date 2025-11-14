@@ -210,45 +210,146 @@ namespace RPG_Console
         }
     }
 
-    class Battle
+    class BattleDisplay
     {
         readonly Character You;
         readonly Character Target;
 
-        public Battle(Character you, Character target)
+        public BattleDisplay(Character you, Character target)
         {
             You = you;
             Target = target;
         }
 
-        public void DisplayBattle()
+        public void Draw()
         {
+            Console.Clear();
+
             int rows = Console.WindowHeight;
             int cols = Console.WindowWidth;
 
+            int center_of_text = rows / 4;
+
+            for (int row = 0; row < rows; row++)
+            {
+                if ((row >= center_of_text - 5 && row <= center_of_text + 5) || rows - row <= 22)
+                {
+                    for (int col = 0; col < cols; col++)
+                    {
+                        if (row >= center_of_text - 5 && row <= center_of_text + 5 && col == cols / 2 - 53)
+                        {
+                            Console.ForegroundColor = ConsoleColor.White;
+                            switch (row - center_of_text)
+                            {
+                                case -5: Console.Write(@"%%%%%%%%%##,,          ++%%%%    ++%%%%%%%%%%%%%%## ++%%%%%%%%%%%%%%##  %%++              ++%%%%%%%%%%%%##"); break;
+                                case -4: Console.Write(@"%%%%++++++%%%%         %%##%%::  ::++++++%%##++++** ::++++++%%##++++**  %%++              %%**++++++++++::"); break;
+                                case -3: Console.Write(@"%%##      **%%,      ,,%%::%%++          %%++               %%++        %%++              %%++            "); break;
+                                case -2: Console.Write(@"%%##      ::##       **%%..++%%          %%++               %%++        %%++              %%++            "); break;
+                                case -1: Console.Write(@"%%%%++++++**..       ####  **%%,,        %%++               %%++        %%++              %%**++++++++,,  "); break;
+                                case 0: Console.Write(@"%%%%%%%%%%##::     ..%%++  ,,%%**        %%++               %%++        %%++              ++%%%%%%%%%%##  "); break;
+                                case 1: Console.Write(@"%%##      %%%**    ::%%++++++%%##        %%++               %%++        %%++              %%++            "); break;
+                                case 2: Console.Write(@"%%##      ::%%++   ++%%%%%%%%%%%%        %%++               %%++        %%++              %%++            "); break;
+                                case 3: Console.Write(@"%%##      ::%%**   %%##      ::%%::      ##==               %%++        %%++              %%++            "); break;
+                                case 4: Console.Write(@"%%**++++++%%%..  ,,%%**        %%++      ##==               %%++        %%**++++++++++::  %%**++++++++++::"); break;
+                                case 5: Console.Write(@"%%%%%%%%%%%%:`   ++%%,,        ##%%      ##==               %%++        ++%%%%%%%%%%%%##  ++%%%%%%%%%%%%##"); break;
+                            }
+
+                            col += 106;
+                        }
+                        else if (rows - row <= 22 && col == Math.Floor(cols / 6.0))
+                        {
+                            switch (rows - row)
+                            {
+                                case 22: Console.Write(@$"Name: {You.Name + new string(' ', 26 - You.Name.Length)}"); break;
+                                case 21: Console.Write(@"================================"); break;
+                                case 20: Console.Write(@$"HP: {You.HP}               Power: {You.Power + new string(' ', 2 - Target.HP.ToString().Length)}"); break;
+                                case 19: Console.Write(@"                                "); break;
+                                case 18: Console.Write(@"       _,.                      "); break;
+                                case 17: Console.Write(@"    ( _/-\\-..__,            ,'|"); break;
+                                case 16: Console.Write(@"   /,| `--._,-+>|           /  /"); break;
+                                case 15: Console.Write(@"   \_|  |`-._./||          /  / "); break;
+                                case 14: Console.Write(@"     |   `-,  / |         /  /  "); break;
+                                case 13: Console.Write(@"     |      ||  |        /  /   "); break;
+                                case 12: Console.Write(@"      `r-._ || /   __   /  /    "); break;
+                                case 11: Console.Write(@"  __,--<_     )`-/   `./  /     "); break;
+                                case 10: Console.Write(@".`   \   `---'   \    /  /      "); break;
+                                 case 9: Console.Write(@"|     |           ;_./  /       "); break;
+                                 case 8: Console.Write(@":     /           : /  /        "); break;
+                                 case 7: Console.Write(@" \_/'  \         .|/  /         "); break;
+                                 case 6: Console.Write(@"  |     |   _,*-' /  /          "); break;
+                                 case 5: Console.Write(@"  |     ,*``   (\/  /._         "); break;
+                                 case 4: Console.Write(@"   \,.-->.._    \X-=/^`         "); break;
+                                 case 3: Console.Write(@"   (  /     `-._//^:            "); break;
+                                 case 2: Console.Write(@"    `Y-.______(__}/:            "); break;
+                                 case 1: Console.Write(@"     |       {__)  :            "); break;
+                                 case 0: Console.Write(@"     |       ``  ""              "); break;
+                            }
+
+                            col += 32;
+                        }
+                        else if (rows - row <= 22 && col == Math.Floor(cols / 1.5))
+                        {
+                            switch (rows - row)
+                            {
+                                case 22: Console.Write(@$"Name: {Target.Name + new string(' ', 26 - Target.Name.Length)} "); break;
+                                case 21: Console.Write(@"================================"); break;
+                                case 20: Console.Write(@$"HP: {Target.HP}               Power: {Target.Power + new string(' ', 3 - You.HP.ToString().Length)}"); break;
+                                case 19: Console.Write(@"                                "); break;
+                                case 18: Console.Write(@"                     ,-----.    "); break;
+                                case 17: Console.Write(@"                    /      |    "); break;
+                                case 16: Console.Write(@"              ____,'       |__  "); break;
+                                case 15: Console.Write(@"            <   -'         :   >"); break;
+                                case 14: Console.Write(@"             `-.__..--'``-,_\_` "); break;
+                                case 13: Console.Write(@"                |o/ ` o,.)_`>   "); break;
+                                case 12: Console.Write(@"                :/ `     ||/)   "); break;
+                                case 11: Console.Write(@"                (_.).__,-` |    "); break;
+                                case 10: Console.Write(@"                /( `.``   `|    "); break;
+                                 case 9: Console.Write(@"                |'`-.)  `  ;    "); break;
+                                 case 8: Console.Write(@",-_-..____     /|     `  /  `:. "); break;
+                                 case 7: Console.Write(@"|'-.__\\  ``-./ |  `    : , `. :"); break;
+                                 case 6: Console.Write(@": `\  `\\  \ :  (   `  /|    | |"); break;
+                                 case 5: Console.Write(@" \` \   \\   |  | `   : :    .\:"); break;
+                                 case 4: Console.Write(@"  \ `\_  ))  :  ;     | |    );|"); break;
+                                 case 3: Console.Write(@" (`-.-'\ ||  |\ \   ` ; ;     |:"); break;
+                                 case 2: Console.Write(@"  \-_   `;;._   ( `  / /_     ||"); break;
+                                 case 1: Console.Write(@"   `-.-.// ,'`-._\__/,'(      ;|"); break;
+                                 case 0: Console.Write(@"       || |    (     ,' /   /  |"); break;
+                            }
+
+                            col += 32;
+                        }
+                        else
+                        {
+                            Console.Write(' ');
+                        }
+
+                        if (row != rows - 1 && col == cols - 1)
+                        {
+                            Console.WriteLine();
+                            continue;
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine();
+                    continue;
+                }
+            }
+
+            Console.ReadKey(true);
+
             // %%%%%%%%%##,,          ++%%%%    ++%%%%%%%%%%%%%%## ++%%%%%%%%%%%%%%##  %%++              ++%%%%%%%%%%%%##
             // %%%%++++++%%%%         %%##%%::  ::++++++%%##++++** ::++++++%%##++++**  %%++              %%**++++++++++::
-            // %%##      **%%,      ,,%%::%%++          %%++               %%++        %%++              %%++
-            // %%##      ::##       **%%..++%%          %%++               %%++        %%++              %%++
-            // %%%%++++++**..       ####  **%%,,        %%++               %%++        %%++              %%**++++++++,,
-            // %%%%%%%%%%##::     ..%%++  ,,%%**        %%++               %%++        %%++              ++%%%%%%%%%%##
-            // %%##      %%%**    ::%%++++++%%##        %%++               %%++        %%++              %%++
-            // %%##      ::%%++   ++%%%%%%%%%%%%        %%++               %%++        %%++              %%++
-            // %%##      ::%%**   %%##      ::%%::      ##==               %%++        %%++              %%++
+            // %%##      **%%,      ,,%%::%%++          %%++               %%++        %%++              %%++            
+            // %%##      ::##       **%%..++%%          %%++               %%++        %%++              %%++            
+            // %%%%++++++**..       ####  **%%,,        %%++               %%++        %%++              %%**++++++++,,  
+            // %%%%%%%%%%##::     ..%%++  ,,%%**        %%++               %%++        %%++              ++%%%%%%%%%%##  
+            // %%##      %%%**    ::%%++++++%%##        %%++               %%++        %%++              %%++            
+            // %%##      ::%%++   ++%%%%%%%%%%%%        %%++               %%++        %%++              %%++            
+            // %%##      ::%%**   %%##      ::%%::      ##==               %%++        %%++              %%++            
             // %%**++++++%%%..  ,,%%**        %%++      ##==               %%++        %%**++++++++++::  %%**++++++++++::
             // %%%%%%%%%%%%:`   ++%%,,        ##%%      ##==               %%++        ++%%%%%%%%%%%%##  ++%%%%%%%%%%%%##
-
-            //   ++%%%%%%##::  ++%%%%%%%%%%%%%%##     ++%%%%        %%%%%%%%%%##,,   ++%%%%%%%%%%%%%%##
-            // **%%##++++%%%%  ::++++++%%##++++**     %%##%%::      %%%%++++++%%%%,, ::++++++%%##++++**
-            // ##%%..    ..,,          %%++         ,,%%::%%++      %%##      **%%**         %%++      
-            // ++%%,,                  %%++         **%%..++%%      %%##      ::%%++         %%++      
-            // ::%%%%++,,              %%++         ####  **%%,,    %%##      ::%%**         %%++      
-            //   ,,##%%%%++..          %%++       ..%%++  ,,%%**    %%%%++++++%%%%..         %%++      
-            //       ::##%%##          %%++       ::%%++++++%%##    %%%%%%%%%%%%,,           %%++      
-            //           ++%%,,        %%++       ++%%%%%%%%%%%%    %%##    ++%%,,           %%++      
-            // ..        ++%%::        %%++       %%##      ::%%::  %%##    ::%%++           %%++      
-            // %%##++++++%%%%          %%++     ,,%%**        %%++  %%##      ##%%,,         %%++      
-            // ++##%%%%%%##,,          %%++     ++%%,,        ##%%  %%##      ::%%++         %%++      
 
             //        _,.                      
             //      ,` -.)                    ,
