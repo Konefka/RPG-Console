@@ -35,10 +35,12 @@ internal class Program
 
         // Imie może mieć maksymalnie 25 znaków
 
-        Character a = new Warrior("Wisio", 4, 3);
-        Character b = new Mage("Zdzisio", 3, 4);
+        Character a = new Knight("Arthur", 4, 3);
+        Character b = new Mage("Salomon", 3, 4);
 
         BattleGround.Battle(a, b);
+
+        Console.ReadKey(true);
 
         //Console.Beep(40, 1000);
         //var key = Console.ReadKey(true);
