@@ -21,6 +21,10 @@ namespace RPG_Console
             @"%%##++++++%%%%          %%++     ,,%%**        %%++  %%##      ##%%,,         %%++      ",
             @"++##%%%%%%##,,          %%++     ++%%,,        ##%%  %%##      ::%%++         %%++      "
         };
+        public static readonly Dictionary<string, string> InGameMessages = new Dictionary<string, string>()
+        {
+            { "Start", "Press any button to start" }
+        };
         public static readonly string[] Battle = {
             @"%%%%%%%%%##,,          ++%%%%    ++%%%%%%%%%%%%%%## ++%%%%%%%%%%%%%%##  %%++              ++%%%%%%%%%%%%##",
             @"%%%%++++++%%%%         %%##%%::  ::++++++%%##++++** ::++++++%%##++++**  %%++              %%**++++++++++::",
@@ -80,6 +84,18 @@ namespace RPG_Console
         };
 
     }
+    
+    static class General
+    {
+        public static void ShowMessage(string key, int row, int col)
+        {
+            if (!ArtAssets.InGameMessages.ContainsKey(key)) return;
+
+            Console.SetCursorPosition(col - (ArtAssets.InGameMessages[key].Length / 2), row);
+            Console.Write(ArtAssets.InGameMessages[key]);
+        }
+    }
+
     static class Menu
     {
         static int Rows;
@@ -110,6 +126,8 @@ namespace RPG_Console
                 Console.SetCursorPosition((Cols / 2 - ArtAssets.Start[0].Length / 2) + 2, (Rows / 2 - 1) + i - (ArtAssets.Start.Length / 2));
                 Console.Write(ArtAssets.Start[i]);
             }
+
+            General.ShowMessage("Start", Rows - 1, Cols / 2);
         }
         public static void GenerateStars(int rows, int cols)
         {

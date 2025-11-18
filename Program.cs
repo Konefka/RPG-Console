@@ -5,6 +5,24 @@ internal class Program
 {
     static void Main(string[] args)
     {
+        ReadyGame();
+
+        //Console.WriteLine();
+        //string a = "...................................................";
+        //int b = 0;
+        //foreach (var i in a)
+        //{
+        //    b++;
+        //}
+        //Console.WriteLine(b);
+
+        //Console.ReadKey(true);
+    }
+
+    static void ReadyGame()
+    {
+        Console.Clear();
+
         Console.WriteLine($"Naciśnij Left Alt + Enter");
         Console.WriteLine("(Program będzie czekał, aż to zrobisz)");
         Console.WriteLine("(Po wejściu możesz wyjść wyłączając konsolę, albo naciskając Escape)");
@@ -14,46 +32,33 @@ internal class Program
             Thread.Sleep(200);
         }
 
-        Console.CursorVisible = false;
+        Character Knight = new Knight("Arthur", 4, 3);
 
         Menu.Draw();
 
-        //Map.Draw();
+        Console.ReadKey(true);
 
-        //while (true)
-        //{
-        //    ConsoleKey key = Console.ReadKey(true).Key;
-        //    if (key == ConsoleKey.Escape)
-        //    {
-        //        Console.Clear();
-        //        break;
-        //    }
-        //    Map.Update(key);
-        //}
+        Console.CursorVisible = false;
+
+        Map.Draw();
+
+        while (true)
+        {
+            ConsoleKey key = Console.ReadKey(true).Key;
+            if (key == ConsoleKey.Escape)
+            {
+                Console.Clear();
+                break;
+            }
+            Map.Update(key);
+        }
 
         // Imie może mieć maksymalnie 25 znaków
-
-        //Character Knight = new Knight("Arthur", 4, 3);
-        //Character Mage = new Mage("Salomon", 3, 4);
-
-        //BattleGround.Battle(Knight, Mage);
-
-        //Console.ReadKey(true);
-
-        //Console.WriteLine();
-
-        //string a = "...................................................";
-        //int b = 0;
-        //foreach (var i in a)
-        //{
-        //    b++;
-        //}
-        //Console.WriteLine(b);
+        Character Mage = new Mage("Salomon", 3, 4);
+        BattleGround.Battle(Knight, Mage);
 
         //Console.Beep(40, 1000);
         //var key = Console.ReadKey(true);
         //Console.WriteLine(key.Modifiers + " " + key.Key);
-
-        Console.ReadKey(true);
     }
 }
