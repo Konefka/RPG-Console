@@ -19,7 +19,7 @@ internal class Program
         //Console.ReadKey(true);
     }
 
-    static void ReadyGame()
+    public static void ReadyGame()
     {
         Console.Clear();
 
@@ -50,12 +50,15 @@ internal class Program
                 Console.Clear();
                 break;
             }
-            Map.Update(key);
+            if (Map.Update(key) == "battle")
+            {
+                Character Mage = new Mage("Salomon", 3, 4);
+                BattleGround.Battle(Knight, Mage);
+                Console.ReadKey(true);
+                Map.Draw();
+                Map.Update(key, true);
+            }
         }
-
-        // Imie może mieć maksymalnie 25 znaków
-        Character Mage = new Mage("Salomon", 3, 4);
-        BattleGround.Battle(Knight, Mage);
 
         //Console.Beep(40, 1000);
         //var key = Console.ReadKey(true);

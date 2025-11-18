@@ -21,10 +21,6 @@ namespace RPG_Console
             @"%%##++++++%%%%          %%++     ,,%%**        %%++  %%##      ##%%,,         %%++      ",
             @"++##%%%%%%##,,          %%++     ++%%,,        ##%%  %%##      ::%%++         %%++      "
         };
-        public static readonly Dictionary<string, string> InGameMessages = new Dictionary<string, string>()
-        {
-            { "Start", "Press any button to start" }
-        };
         public static readonly string[] Battle = {
             @"%%%%%%%%%##,,          ++%%%%    ++%%%%%%%%%%%%%%## ++%%%%%%%%%%%%%%##  %%++              ++%%%%%%%%%%%%##",
             @"%%%%++++++%%%%         %%##%%::  ::++++++%%##++++** ::++++++%%##++++**  %%++              %%**++++++++++::",
@@ -81,6 +77,11 @@ namespace RPG_Console
             @"  \-_   `;;._   ( `  / /_     || ",
             @"   `-.-.// ,'`-._\__/,'(      ;| ",
             @"       || |    (     ,' /   /  | "
+        };
+
+        public static readonly Dictionary<string, string> InGameMessages = new Dictionary<string, string>()
+        {
+            { "Start", "Press any button to start" }
         };
 
     }
@@ -148,7 +149,7 @@ namespace RPG_Console
         static int Cols = 120;
         static int pRow;
         static int pCol;
-        static List<(int row, int col)> ePos = new List<(int, int)>();
+        public static List<(int row, int col)> ePos = new List<(int, int)>();
         static List<List<char>> MapDisplay = new List<List<char>>();
 
         public static void Generate(int rows, int cols)
@@ -219,7 +220,7 @@ namespace RPG_Console
                 }
             }
         }
-        public static void Update(ConsoleKey key)
+        public static string Update(ConsoleKey key, bool IsOverride = false)
         {
             int newRow = pRow;
             int newCol = pCol;
@@ -230,10 +231,19 @@ namespace RPG_Console
                 case ConsoleKey.S: newRow++; break;
                 case ConsoleKey.A: newCol--; break;
                 case ConsoleKey.D: newCol++; break;
-                default: return;
+                default: return "wall";
             }
 
-            if (MapDisplay[newRow][newCol] != '#')
+            if (!IsOverride)
+            {
+                if (ePos.Contains((newRow, newCol)))
+                {
+                    return "battle";
+                }
+            }
+            else ePos.Remove((newRow, newCol));
+
+            if (MapDisplay[newRow][newCol] == '.')
             {
                 Console.SetCursorPosition(pCol * 2, pRow);
                 Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -246,6 +256,8 @@ namespace RPG_Console
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("@ ");
             }
+
+            return "move";
         }
 
         static void GenerateEnemies(int howmuch)
