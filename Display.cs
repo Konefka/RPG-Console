@@ -84,63 +84,23 @@ namespace RPG_Console
     {
         static int Rows;
         static int Cols;
-        static List<List<char>> MenuDisplay = new List<List<char>>();
         static List<(int row, int col)> sPos = new List<(int, int)>();
 
-        public static void Generate(int rows, int cols)
-        {
-            MenuDisplay.Clear();
-
-            Rows = rows;
-            Cols = cols;
-
-            for (int row = 0; row < Rows; row++)
-            {
-                List<char> newRow = new List<char>();
-
-                for (int col = 0; col < Cols; col++)
-                {
-                    newRow.Add('.');
-                }
-                MenuDisplay.Add(newRow);
-            }
-
-            sPos.Clear();
-
-            for (int i = 0; i < Rows * 2; i++)
-            {
-                sPos.Add((Random.Shared.Next(1, Rows - 1), Random.Shared.Next(1, Cols - 1)));
-            }
-        }
         public static void Draw()
         {
-            if (!MenuDisplay.Any())
+            if (!sPos.Any())
             {
-                Generate(Console.WindowHeight, Console.WindowWidth);
+                GenerateStars(Console.WindowHeight, Console.WindowWidth);
             }
 
             Console.Clear();
 
             Console.ForegroundColor = ConsoleColor.Yellow;
 
-            for (int row = 0; row < MenuDisplay.Count; row++)
+            foreach (var s in sPos)
             {
-                for (int col = 0; col < MenuDisplay[0].Count; col++)
-                {
-                    if (sPos.Contains((row, col)))
-                    {
-                        Console.Write('*');
-                    }
-                    else
-                    {
-                        Console.Write(' ');
-                    }
-                }
-
-                if (row != MenuDisplay.Count - 1)
-                {
-                    Console.WriteLine();
-                }
+                Console.SetCursorPosition(s.col, s.row);
+                Console.Write('*');
             }
 
             Console.ForegroundColor = ConsoleColor.White;
@@ -149,6 +109,18 @@ namespace RPG_Console
             {
                 Console.SetCursorPosition((Cols / 2 - ArtAssets.Start[0].Length / 2) + 2, (Rows / 2 - 1) + i - (ArtAssets.Start.Length / 2));
                 Console.Write(ArtAssets.Start[i]);
+            }
+        }
+        public static void GenerateStars(int rows, int cols)
+        {
+            Rows = rows;
+            Cols = cols;
+
+            sPos.Clear();
+
+            for (int i = 0; i < Rows * 2; i++)
+            {
+                sPos.Add((Random.Shared.Next(1, Rows - 1), Random.Shared.Next(1, Cols - 1)));
             }
         }
     }
@@ -187,7 +159,6 @@ namespace RPG_Console
 
             GenerateEnemies(Rows / 4);
         }
-
         public static void Draw()
         {
             if (!MapDisplay.Any())
@@ -230,7 +201,6 @@ namespace RPG_Console
                 }
             }
         }
-
         public static void Update(ConsoleKey key)
         {
             int newRow = pRow;
@@ -301,7 +271,6 @@ namespace RPG_Console
 
             DrawCharacter(Target, ArtAssets.MageIdle, Cols / 1.5);
         }
-
         public decimal Attack(Character character)
         {
             if (character is Character && (character == You || character == Target))

@@ -16,7 +16,7 @@ internal class Program
 
         Console.CursorVisible = false;
 
-        //Menu.Draw();
+        Menu.Draw();
 
         //Map.Draw();
 
@@ -33,10 +33,10 @@ internal class Program
 
         // Imie może mieć maksymalnie 25 znaków
 
-        Character Knight = new Knight("Arthur", 4, 3);
-        Character Mage = new Mage("Salomon", 3, 4);
+        //Character Knight = new Knight("Arthur", 4, 3);
+        //Character Mage = new Mage("Salomon", 3, 4);
 
-        BattleGround.Battle(Knight, Mage);
+        //BattleGround.Battle(Knight, Mage);
 
         //Console.ReadKey(true);
 
