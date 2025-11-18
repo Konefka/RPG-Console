@@ -46,6 +46,7 @@ namespace RPG_Console
             BattleDisplay battle = new BattleDisplay(you, target);
             battle.Draw();
             Character who_is_next = you;
+            //Console.ReadKey(true);
         }
     }
 }

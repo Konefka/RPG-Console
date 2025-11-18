@@ -37,7 +37,7 @@ namespace RPG_Console
         public class Knight : Character
         {
             public decimal Sword_weight { get; protected set; }
-            public Warrior(string name, decimal power, decimal sword_weight)
+            public Knight(string name, decimal power, decimal sword_weight)
             {
                 Name = name;
                 Power = Math.Round(power <= 15 ? power : 15, 2);

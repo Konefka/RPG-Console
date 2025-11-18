@@ -14,11 +14,9 @@ internal class Program
             Thread.Sleep(200);
         }
 
-        //Console.CursorVisible = false;
+        Console.CursorVisible = false;
 
         //Menu.Draw();
-
-        //Console.ReadKey(true);
 
         //Map.Draw();
 
@@ -35,15 +33,27 @@ internal class Program
 
         // Imie może mieć maksymalnie 25 znaków
 
-        Character a = new Knight("Arthur", 4, 3);
-        Character b = new Mage("Salomon", 3, 4);
+        Character Knight = new Knight("Arthur", 4, 3);
+        Character Mage = new Mage("Salomon", 3, 4);
 
-        BattleGround.Battle(a, b);
+        BattleGround.Battle(Knight, Mage);
 
-        Console.ReadKey(true);
+        //Console.ReadKey(true);
+
+        //Console.WriteLine();
+
+        //string a = "...................................................";
+        //int b = 0;
+        //foreach (var i in a)
+        //{
+        //    b++;
+        //}
+        //Console.WriteLine(b);
 
         //Console.Beep(40, 1000);
         //var key = Console.ReadKey(true);
         //Console.WriteLine(key.Modifiers + " " + key.Key);
+
+        Console.ReadKey(true);
     }
 }
