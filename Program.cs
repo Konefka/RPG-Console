@@ -1,33 +1,24 @@
 ﻿using RPG_Console;
 using System.Runtime.Versioning;
+using System.Threading.Tasks;
 using static RPG_Console.Living;
 
 internal class Program
 {
     static void Main(string[] args)
     {
-        //ReadyGame();
-
-        //Console.WriteLine();
-        //string a = "...................................................";
-        //int b = 0;
-        //foreach (var i in a)
-        //{
-        //    b++;
-        //}
-        //Console.WriteLine(b);
-
-        //Console.ReadKey(true);
+        ReadyGame();
     }
 
     public static void ReadyGame()
     {
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine("Aby włączyć grę naciśnij Enter");
-        Console.WriteLine("(Program będzie czekał, aż to zrobisz)");
-        Console.WriteLine("Naciśnij Left Alt + Enter aby uruchomić pełny ekran");
-        Console.WriteLine("(Po wejściu możesz wyjść z gry wyłączając konsolę, albo naciskając Escape)\n\nPsst. Konsola musi mieć szerokość min 109 i wysokość min 39\nGra nie przewiduje w trakcie zmiany wielkośći okna");
+        Console.WriteLine("- Aby włączyć grę naciśnij Enter");
+        Console.WriteLine("(Program będzie czekał, aż to zrobisz)\n");
+        Console.WriteLine("- Naciśnij Left Alt + Enter aby uruchomić pełny ekran");
+        Console.WriteLine("(Po wejściu możesz wyjść z gry wyłączając konsolę, albo naciskając Escape)\n");
+        Console.WriteLine("Psst. Konsola musi mieć szerokość minimum 109 i wysokość minimum 39\nGra nie przewiduje zmiany wielkości okna w trakcie gry");
 
         while (true)
         {
@@ -43,7 +34,11 @@ internal class Program
 
         Menu.Draw();
 
+        CancellationTokenSource cts = new CancellationTokenSource();
+        Task.Run(() => Menu.AnimateStars(cts.Token));
+
         Console.ReadKey(true);
+        cts.Cancel();
 
         Console.CursorVisible = false;
 
@@ -58,7 +53,8 @@ internal class Program
                 Console.ForegroundColor = ConsoleColor.White;
                 break;
             }
-            if (Map.Update(key) == "battle")
+            string return_value = Map.Update(key);
+            if (return_value == "battle")
             {
                 Character Mage = new Mage("Salomon", 3, 4);
                 BattleGround.Battle(Knight, Mage);
@@ -66,9 +62,17 @@ internal class Program
                 Map.Draw();
                 Map.Update(key, true);
             }
+            else if (return_value == "win" && OperatingSystem.IsWindows())
+            {
+                Console.Beep(800, 110);
+                Console.Beep(800, 1000);
+                Console.SetCursorPosition(Console.WindowWidth / 2 - 4, Console.WindowHeight / 2);
+                Console.Write("You won!");
+                Console.SetCursorPosition(1,0);
+                return;
+            }
         }
 
-        //Console.Beep(40, 1000);
         //var key = Console.ReadKey(true);
         //Console.WriteLine(key.Modifiers + " " + key.Key);
     }

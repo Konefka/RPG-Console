@@ -127,6 +127,20 @@ namespace RPG_Console
 
             General.ShowMessage("Start", Rows - 1, Cols / 2);
         }
+        public static void AnimateStars(CancellationToken token)
+        {
+            Console.CursorVisible = false;
+            Console.ForegroundColor= ConsoleColor.Yellow;
+
+            while (!token.IsCancellationRequested)
+            {
+                int star = Random.Shared.Next(sPos.Count);
+                Console.SetCursorPosition(sPos[star].col, sPos[star].row);
+                Console.Write(Random.Shared.Next(2) == 0 ? ' ' : '*');
+
+                Thread.Sleep(75);
+            }
+        }
         public static void GenerateStars(int rows, int cols)
         {
             Rows = rows;
@@ -243,6 +257,11 @@ namespace RPG_Console
                 Console.SetCursorPosition(pCol * 2, pRow);
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("@ ");
+            }
+
+            if (!ePos.Any())
+            {
+                return "win";
             }
 
             return "move";
