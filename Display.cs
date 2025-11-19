@@ -105,10 +105,7 @@ namespace RPG_Console
 
         public static void Draw()
         {
-            if (!sPos.Any())
-            {
-                GenerateStars(Console.WindowHeight, Console.WindowWidth);
-            }
+            if (!sPos.Any()) GenerateStars(Console.WindowHeight, Console.WindowWidth);
 
             Console.Clear();
 
@@ -180,10 +177,7 @@ namespace RPG_Console
         }
         public static void Draw()
         {
-            if (!MapDisplay.Any())
-            {
-                Generate(Console.WindowHeight, Console.WindowWidth);
-            }
+            if (!MapDisplay.Any()) Generate(Console.WindowHeight, Console.WindowWidth);
 
             Console.Clear();
 
@@ -203,10 +197,7 @@ namespace RPG_Console
                     }
                     else
                     {
-                        if (MapDisplay[row][col] == '#')
-                        {
-                            Console.ForegroundColor = ConsoleColor.Blue;
-                        }
+                        if (MapDisplay[row][col] == '#') Console.ForegroundColor = ConsoleColor.Blue;
 
                         Console.Write(MapDisplay[row][col] + " ");
                     }
@@ -214,10 +205,7 @@ namespace RPG_Console
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                 }
 
-                if (row != MapDisplay.Count - 1)
-                {
-                    Console.WriteLine();
-                }
+                if (row != MapDisplay.Count - 1) Console.WriteLine();
             }
         }
         public static string Update(ConsoleKey key, bool IsOverride = false)
@@ -236,12 +224,12 @@ namespace RPG_Console
 
             if (!IsOverride)
             {
-                if (ePos.Contains((newRow, newCol)))
-                {
-                    return "battle";
-                }
+                if (ePos.Contains((newRow, newCol))) return "battle";
             }
-            else ePos.Remove((newRow, newCol));
+            else
+            {
+                ePos.Remove((newRow, newCol));
+            }
 
             if (MapDisplay[newRow][newCol] == '.')
             {
@@ -290,6 +278,7 @@ namespace RPG_Console
         public void Draw()
         {
             Console.Clear();
+            Console.ForegroundColor= ConsoleColor.White;
 
             for (int i = 0; i < ArtAssets.Battle.Length; i++)
             {

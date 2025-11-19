@@ -1,11 +1,12 @@
 ﻿using RPG_Console;
+using System.Runtime.Versioning;
 using static RPG_Console.Living;
 
 internal class Program
 {
     static void Main(string[] args)
     {
-        ReadyGame();
+        //ReadyGame();
 
         //Console.WriteLine();
         //string a = "...................................................";
@@ -22,14 +23,20 @@ internal class Program
     public static void ReadyGame()
     {
         Console.Clear();
-
-        Console.WriteLine($"Naciśnij Left Alt + Enter");
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("Aby włączyć grę naciśnij Enter");
         Console.WriteLine("(Program będzie czekał, aż to zrobisz)");
-        Console.WriteLine("(Po wejściu możesz wyjść wyłączając konsolę, albo naciskając Escape)");
+        Console.WriteLine("Naciśnij Left Alt + Enter aby uruchomić pełny ekran");
+        Console.WriteLine("(Po wejściu możesz wyjść z gry wyłączając konsolę, albo naciskając Escape)\n\nPsst. Konsola musi mieć szerokość min 109 i wysokość min 39\nGra nie przewiduje w trakcie zmiany wielkośći okna");
 
-        while (Console.WindowWidth != 209 || Console.WindowHeight != 56)
+        while (true)
         {
-            Thread.Sleep(200);
+            if (Console.ReadKey(true).Key == ConsoleKey.Enter) break;
+        }
+
+        if (OperatingSystem.IsWindows() && (Console.WindowWidth < 109 || Console.WindowHeight < 39))
+        {
+            Console.SetWindowSize(109, 39);
         }
 
         Character Knight = new Knight("Arthur", 4, 3);
@@ -48,6 +55,7 @@ internal class Program
             if (key == ConsoleKey.Escape)
             {
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.White;
                 break;
             }
             if (Map.Update(key) == "battle")
