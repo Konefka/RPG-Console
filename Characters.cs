@@ -19,14 +19,14 @@ namespace RPG_Console
             Console.WriteLine($"- HP: {HP}");
         }
 
-        internal virtual decimal TakeDamage(decimal howmuch)
+        internal virtual decimal TakeDamage(decimal howmuch) // virtual, aby można było zmienić dostawanie obrażeń później
         {
             HP = Math.Round(HP - howmuch, 2);
             if (HP < 0) HP = 0;
             return HP;
         }
 
-        internal virtual decimal HealUp(decimal howmuch)
+        internal virtual decimal HealUp(decimal howmuch) // virtual, aby można było zmienić dostawanie życia później
         {
             return HP = Math.Round(HP + howmuch, 2);
         }
@@ -34,10 +34,10 @@ namespace RPG_Console
 
     class Living
     {
-        public class Warrior : Character
+        public class Knight : Character
         {
             public decimal Sword_weight { get; protected set; }
-            public Warrior(string name, decimal power, decimal sword_weight)
+            public Knight(string name, decimal power, decimal sword_weight)
             {
                 Name = name;
                 Power = Math.Round(power <= 15 ? power : 15, 2);
